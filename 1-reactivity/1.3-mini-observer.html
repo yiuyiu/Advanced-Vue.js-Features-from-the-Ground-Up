@@ -1,0 +1,49 @@
+<script>
+  // This is a greatly simplified version of the dependency tracking
+  // system used in Vue, Knockout, MobX and Meteor Tracker (each with different
+  // implementation details, of course). It doesn't cover all the possible edge
+  // cases in detection, nor does it handle Arrays; The goal is simply to better
+  // understand how the tracking takes place and how data becomes "reactive".
+  window.Dep = class Dep {
+    // Implement this!
+    constructor() {
+      this.subscribers = new Set();
+    }
+    depend() {
+      this.subscribers.add(activeF);
+    }
+    notify() {
+      for (let x of this.subscribers) {
+        x();
+      }
+    }
+  };
+  function observe(obj) {
+    // Implement this!
+    for (let key in obj) {
+      let value = obj[key];
+      const dep = new Dep();
+      Object.defineProperty(obj, key, {
+        get() {
+          dep.depend();
+          return value;
+        },
+        set(newVal) {
+          value = newVal;
+          dep.notify();
+        }
+      });
+    }
+  }
+  let activeF;
+  function autorun(update) {
+    // wrap the raw update function into a "job" function that registers and	  // Implement this!
+    // unregisters itself as the current active job when invoked
+    function wrappedUpdate() {
+      activeF = wrappedUpdate;
+      update();
+      activeF = null;
+    }
+    wrappedUpdate();
+  }
+</script>

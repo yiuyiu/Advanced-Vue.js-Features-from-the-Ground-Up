@@ -1,0 +1,20 @@
+<script src="../node_modules/vue/dist/vue.js"></script>
+
+<div id="app"><example :tags="['h1', 'h2', 'h3']"></example></div>
+
+<script>
+  Vue.component("example", {
+    // Implement this!
+    render(h) {
+      return h(
+        "div",
+        this.tags.map((val, index) => {
+          return h(val, index);
+        })
+      );
+    },
+    props: ["tags"]
+  });
+
+  new Vue({ el: "#app" });
+</script>

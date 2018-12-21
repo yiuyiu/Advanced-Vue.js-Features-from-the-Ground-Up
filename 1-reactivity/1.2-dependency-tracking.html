@@ -1,0 +1,28 @@
+<script>
+  // a class representing a dependency
+  // exposing it on window is necessary for testing
+  window.Dep = class Dep {
+    // Implement this!
+    constructor() {
+      this.subscribers = new Set();
+    }
+    depend() {
+      this.subscribers.add(activeF);
+    }
+    notify() {
+      for (let x of this.subscribers) {
+        x();
+      }
+    }
+  };
+  let activeF;
+  function autorun(update) {
+    // Implement this!
+    function wrappedUpdate() {
+      activeF = wrappedUpdate;
+      update();
+      activeF = null;
+    }
+    wrappedUpdate();
+  }
+</script>

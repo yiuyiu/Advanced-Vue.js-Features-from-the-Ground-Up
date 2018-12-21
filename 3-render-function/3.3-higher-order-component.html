@@ -1,0 +1,60 @@
+<script src="../node_modules/vue/dist/vue.js"></script>
+
+<div id="app">
+  <smart-avatar username="vuejs">
+    <div>foor</div>
+    <div>foor</div>
+    <div>foor</div>
+    <div>foor</div>
+  </smart-avatar>
+</div>
+
+<script>
+  // mock API
+  function fetchURL(username, cb) {
+    setTimeout(() => {
+      // hard coded, bonus: exercise: make it fetch from gravatar!
+      cb("https://avatars3.githubusercontent.com/u/6128107?v=4&s=200");
+    }, 500);
+  }
+
+  const Avatar = {
+    props: ["src"],
+    template: `<img :src="src">`
+  };
+
+  function withAvatarURL(InnerComponent) {
+    // Implement this!
+    return {
+      props: ["username"],
+      data() {
+        return {
+          url: "http://via.placeholder.com/200x200"
+        };
+      },
+      created() {
+        fetchURL(this.username, url => {
+          this.url = url;
+        });
+      },
+      render(h) {
+        return h(
+          Avatar,
+          {
+            props: {
+              src: this.url
+            }
+          },
+          this.$slots.default
+        );
+      }
+    };
+  }
+
+  const SmartAvatar = withAvatarURL(Avatar);
+
+  new Vue({
+    el: "#app",
+    components: { SmartAvatar }
+  });
+</script>

@@ -1,0 +1,47 @@
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script>
+  // goal:
+  // - display foo when url is at #foo
+  // - display bar when url is at #bar
+  // - bonus: implement links that navigate between #foo and #bar
+
+  // to access the current hash:
+  // window.location.hash
+  // to listen for hash changes:
+  // window.addEventListener('hashchange', () => {
+  //   // read hash and update app
+  // })
+</script>
+
+<div id="app">
+  <component :is="route"></component>
+  <!-- render main view here -->
+  <a href="#foo">foo</a> <a href="#bar">bar</a>
+</div>
+
+<script>
+  window.addEventListener("hashchange", () => {
+    // Implement this!
+    app.route = window.location.hash.slice(1);
+  });
+
+  const app = new Vue({
+    el: "#app",
+    data: {
+      route: window.location.hash.slice(1)
+    },
+    components: {
+      foo: {
+        render(h) {
+          return h("div", "foo");
+        }
+      },
+      bar: {
+        render(h) {
+          return h("div", "bar");
+        }
+      }
+    }
+    // Implement this!
+  });
+</script>
